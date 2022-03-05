@@ -1,8 +1,10 @@
-#STEGANOGRAPHY
-##LSB (v1.0.0)
+# STEGANOGRAPHY
+
+## LSB (v1.0.0)
+
 Author: Shankar Narayan K
 
-###INTRODUCTION
+### INTRODUCTION
 
 This is a python tool used to **hide**(encode) and **extract**(decode) messages using **'Least Significant Bit(LSB)'** steganography method.
 
