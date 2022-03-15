@@ -280,7 +280,7 @@ python lsb.py @assets/de_args.txt
 
 ### EPILOGUE
 
-This is my first serious project. Constructive feedbacks are welcomed.
+This is my first serious project. Constructive feedbacks are welcome.
 
 I hope you like my work.
 
