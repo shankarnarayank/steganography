@@ -1,6 +1,6 @@
-import numpy as np
-import PIL.Image as Imager
 from random import randrange
+import PIL.Image as Imager
+import numpy as np
 
 
 def support_check(img_mode):

@@ -1,7 +1,5 @@
-import encode
-import decode
 from os import path, remove
-import arguments
+from utils import encode, decode, arguments
 
 
 def main(action=None, ip_image="image.png", text='NeuralNine', password=None, op_image="encoded.png", op_text=None):

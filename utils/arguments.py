@@ -1,7 +1,22 @@
-import argparse
-from argparse import ArgumentParser
+from argparse import ArgumentParser, RawTextHelpFormatter
 from filetype import is_image
 from os import path
+
+
+def _consent(args, output):
+    if path.exists(args[output]):
+        args[output] = path.abspath(args[output])
+        consent_ = input(f"Warning!!! \nThe '{args[output]}' file already exists."
+                         f"\nDo you wish to overwrite?(y/n)[Default=n] ").lower() or 'n'
+        if consent_ in ['y', 'yes']:
+            pass
+        elif consent_ in ['n', 'no']:
+            print("Exiting...")
+            exit(0)
+        else:
+            print("Invalid option.")
+            _consent(args, output)
+    return args
 
 
 def is_valid_file(arg) -> str:
@@ -17,7 +32,7 @@ def get_args():
                              description="Hide/extract messages from an image using LSB encoding.\n"
                                          "(LSB = Least Significant Bit)",
                              # usage="python lsb.py [-h] en|de ...",
-                             formatter_class=argparse.RawTextHelpFormatter,
+                             formatter_class=RawTextHelpFormatter,
                              epilog="Made by [shankar12789](https://github.com/shankar12789)")
     my_args.version = version_info
     my_args.add_argument('-v', '--version',
@@ -31,7 +46,7 @@ def get_args():
     encode = action.add_parser(name='encode',
                                aliases=['en'],
                                help='Do encoding operation.\nFor more info: "python %(prog)s encode -h"',
-                               formatter_class=argparse.RawTextHelpFormatter,
+                               formatter_class=RawTextHelpFormatter,
                                description="Encode a MESSAGE inside an IMAGE.\nSupported Image Formats: "
                                            "'CMYK', 'HSV', 'LAB', 'RGB', 'RGBA', 'RGBX', 'YCbCr'."
                                            "\nAny other format will result in error.",
@@ -78,7 +93,7 @@ def get_args():
     decode = action.add_parser('decode',
                                aliases=['de'],
                                help='Do decoding operation. \nFor more info: "python %(prog)s decode -h"',
-                               formatter_class=argparse.RawTextHelpFormatter,
+                               formatter_class=RawTextHelpFormatter,
                                description="Decode a MESSAGE from an IMAGE (if it exists).",
                                epilog="Made by [shankar12789](https://github.com/shankar12789)")
 
@@ -108,47 +123,26 @@ def get_args():
 
     args = my_args.parse_args()
     args = vars(args)
+
     if not (path.exists(args['input']) and is_image(args['input'])):
         print(f"{args['input']} doesn't exist or unsupported.")
         exit(1)
+
     if args['passwd'] is None:
         args['passwd'] = path.basename(args['input'])
-    if 'op_image' in args and args['op_image'] is not None and path.exists(args['op_image']):
-        consent = input(f"Warning!!! The '{args['op_image']}' file already exists."
-                        f"\nDo you wish to overwrite?(y/n)[Default=n] ").lower() or 'n'
-        if consent in ['y', 'yes']:
-            return args
-        elif consent in ['n', 'no']:
-            print("Exiting...")
-        else:
-            print("Invalid option.")
-        exit(0)
-    elif 'op_image' in args and args['op_image'] is None:
-        args['op_image'] = path.join(path.curdir, "assets", "encoded.png")
-        if path.exists(args['op_image']):
-            consent = input(f"Warning!!! The '{args['op_image']}' file already exists."
-                            f"\nDo you wish to overwrite?(y/n)[Default=n] ").lower() or 'n'
-            if consent in ['y', 'yes']:
-                return args
-            elif consent in ['n', 'no']:
-                print("Exiting...")
-            else:
-                print("Invalid option.")
-            exit(0)
+
+    if 'op_image' in args:
+        if args['op_image'] is None:
+            args['op_image'] = path.join(path.curdir, 'outputs', 'encoded.png')
+        return _consent(args, 'op_image')
+
     if 'op_text' in args and args['op_text'] is not None and path.exists(args['op_text']):
-        consent = input(f"Warning!!! The '{args['op_text']}' file already exists."
-                        f"\nDo you wish to overwrite?(y/n)[Default=n] ").lower() or 'n'
-        if consent in ['y', 'yes']:
-            return args
-        elif consent in ['n', 'no']:
-            print("Exiting...")
-        else:
-            print("Invalid option.")
-        exit(0)
+        return _consent(args, 'op_text')
+
     return args
 
 
-version_info = '1.0.0'
+version_info = '1.0.5'
 
 if __name__ == '__main__':
     print(get_args())
