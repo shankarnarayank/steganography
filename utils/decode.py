@@ -1,7 +1,7 @@
-import sys
-import numpy as np
+from .encode import support_check
 import PIL.Image as Imager
-from encode import support_check
+import numpy as np
+import sys
 
 
 class Decoder:

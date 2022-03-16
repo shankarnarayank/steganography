@@ -1,6 +1,6 @@
 # STEGANOGRAPHY
 
-## LSB (v1.0.0)
+## LSB (v1.0.5)
 
 Author: Shankar Narayan K
 
@@ -10,12 +10,12 @@ This is a python tool used to **hide**(encode) and **extract**(decode) messages 
 
 This project is inspired from a [video][video_link] by [NeuralNine][channel_link].
 
-While the core algorithm remains the same, I've some of my own personal touch, like:
+While the core algorithm remains the same, I've added some of my own personal touch, like:
  
  - Adding parameter processing capabilities.
  - Starting message encoding randomly inside the message instead of from the beginning itself, assisted by the start and stop indicator.
  - Adding a password requirement. (The password is used to generate start and stop indicator)
- - Ability to take parameters from files directly also, this helps in taking messages from files rather than copy-pasting it to the terminal or all the parameters can be written to a file, and they can be passed instead.
+ - Ability to take parameters from files directly, all the parameters can be written to a file, and they can be passed instead using **_ ( underscore )** as the prefix.
 
 I will leave it to the PROs to figure out the potential of that last feature **;-)**
 
@@ -25,30 +25,33 @@ So here is the simplest explanation I can think of:
 
  - Consider the above image as a small slice of a large image.
  - Take this group of 9 pixels as a matrix and flatten it(meaning we are converting it from 3x3 to 9x1)
- - Now this flatted matrix has 3 colours **(RGB)** for each element(pixel), each colour is also called a **'channel'**.
+ - Now this flatted matrix has 3 colours `(RGB)` for each element(pixel), each `colour` is also called a `channel` (will be used here interchangeably).
  - Each channel has a value ranging from 0 to 255, which can be represented using 8 bits or 1 byte.
- - The right-most bit of any binary value is called the least significant bit(lsb).
- - We convert our message into the same binary value and replace the lsb of each channel's value with one bit from our message.
+ - The right-most bit of any binary value is called the **Least Significant Bit** `(LSB)`.
+ - We convert our message into a binary string and replace the `LSB` of each channel's value with one bit from our binary string.
+- For securing the message, it is sandwiched between the password and stored at a random location within the image.
  - Reversing the process will give us the original message.
- - For securing the message, it is sandwiched between the password and stored at a random location.
 
-#### DISCLAIMER
+### DISCLAIMER
 
-This tool does not provide any form of encryption or decryption mechanism, anyone with the knowledge of how LSB steganography, can decode the message.
+This tool does not provide any form of encryption or decryption mechanism, anyone with the knowledge of LSB steganography, can decode the message.
 
-If you require such a form of encryption look elsewhere or encrypt the message prior to encoding it to the image. 
+If you require such form of encryption look elsewhere or encrypt the message and/or password prior to encoding it to an image. 
 
 ### REQUIREMENTS
-
- - Numpy
- - Pillow
- - Filetype
 
 ```sh
 pip install -r requirements.txt
 ```
 
+ - Numpy
+ - Pillow
+ - Filetype
+
+
 ### USAGE
+
+#### GENERAL
 
 ```sh
 python lsb.py -h
@@ -72,6 +75,10 @@ Action:
 
 Made by [shankar12789](https://github.com/shankar12789)
 ```
+
+<br>
+
+#### ENCODING
 
 ```sh
 python lsb.py en -h
@@ -114,6 +121,12 @@ Optional:
 Made by [shankar12789](https://github.com/shankar12789)
 ```
 
+<br>
+
+#### DECODING
+
+
+
 ```sh
 python lsb.py de -h
 ```
@@ -143,90 +156,98 @@ Made by [shankar12789](https://github.com/shankar12789)
 
 ### EXAMPLE
 
+<br>
+
 ### BEGINNER
 
 ##### ENCODING
 
 ```sh
-python lsb.py encode --input assets/image.png --text "Hello World"
+python lsb.py encode --input resources/image.png --text "Hello World"
 ```
 
 <p align="center"><b>OR</b></p>
 
 ```sh
-python lsb.py en -i assets/image.png -t "Hello World"
+python lsb.py en -i resources/image.png -t "Hello World"
 ```
 
 ##### DECODING
 
 ```sh
-python lsb.py decode --input assets/encoded.png --passwd "image.png"
+python lsb.py decode --input outputs/encoded.png --passwd "image.png"
 ```
 
 <p align="center"><b>OR</b></p>
 
 ```sh
-python lsb.py de -i assets/encoded.png -p "image.png"
+python lsb.py de -i outputs/encoded.png -p "image.png"
 ```
+
+<br>
 
 ### INTERMEDIATE
 
 ##### ENCODING
 
 ```sh
-python lsb.py encode --input assets/image.png --text "Hello World" --passwd "nowyouseeme" --output assets/nowyoudont.png
+python lsb.py encode --input resources/image.png --text "Hello World" --passwd "nowyouseeme" --output outputs/nowyoudont.png
 ```
 
 <p align="center"><b>OR</b></p>
 
 ```sh
-python lsb.py en -i assets/image.png -t "Hello World" -p "nowyouseeme" -o assets/nowyoudont.png
+python lsb.py en -i resources/image.png -t "Hello World" -p "nowyouseeme" -o outputs/nowyoudont.png
 ```
 
 ##### DECODING
 
 ```sh
-python lsb.py decode --input assets/nowyoudont.png --passwd "nowyouseeme" --output assets/supersecretmsg.txt
+python lsb.py decode --input outputs/nowyoudont.png --passwd "nowyouseeme" --output outputs/supersecretmsg.txt
 ```
 
 <p align="center"><b>OR</b></p>
 
 ```sh
-python lsb.py de -i assets/nowyoudont.png -p "nowyouseeme" -o assets/supersecretmsg.txt
+python lsb.py de -i outputs/nowyoudont.png -p "nowyouseeme" -o outputs/supersecretmsg.txt
 ```
+
+<br>
 
 ### ADVANCED
 
 ##### ENCODING
 
 ```sh
-python lsb.py encode --input assets/image.png --text assets/sample.txt --passwd "secretmessage" --output assets/nowyoudont2.png
+python lsb.py encode --input resources/image.png --text resources/sample.txt --passwd "secretmessage" --output outputs/nowyoudont2.png
 ```
 
 <p align="center"><b>OR</b></p>
 
 ```sh
-python lsb.py en -i assets/image.png -t assets/sample.txt -p "secretmessage" -o assets/nowyoudont2.png
+python lsb.py en -i resources/image.png -t resources/sample.txt -p "secretmessage" -o outputs/nowyoudont2.png
 ```
 
 ##### DECODING
 
 ```sh
-python lsb.py decode --input assets/nowyoudont2.png --passwd "secretmessage" --output assets/supersecretmessage2.txt
+python lsb.py decode --input outputs/nowyoudont2.png --passwd "secretmessage" --output outputs/supersecretmessage2.txt
 ```
 
 <p align="center"><b>OR</b></p>
 
 ```sh
-python lsb.py de -i assets/nowyoudont2.png -p "secretmessage" -o assets/supersecretmessage2.txt
+python lsb.py de -i outputs/nowyoudont2.png -p "secretmessage" -o outputs/supersecretmessage2.txt
 ```
+
+<br>
 
 ### PROFESSIONAL
 
 ##### ENCODING
 
 ```sh
-python lsb.py @assets/en_args.txt
+python lsb.py _resources/en_args.txt
 ```
 
 | [Encoding Arguments][en_args] |
@@ -235,7 +256,7 @@ python lsb.py @assets/en_args.txt
 ##### DECODING
 
 ```
-python lsb.py @assets/de_args.txt
+python lsb.py _resources/de_args.txt
 ```
 
 | [Decoding Arguments][de_args] |
@@ -248,19 +269,19 @@ python lsb.py @assets/de_args.txt
 ###### LINUX
 
 ```sh
-python lsb.py en -i assets/image.png -t "$(cat assets/sample.txt)" -o assets/pow.png
+python lsb.py en -i resources/image.png -t "$(cat resources/sample.txt)" -o outputs/pow_sh.png
 ```
 
 ###### COMMAND PROMPT
 
 ```cmd
-forfiles /p assets /m sample.txt /c "cmd /c python ..\lsb.py en -i image.png -t @path -o pow_cmd.png"
+forfiles /p resources /m sample.txt /c "cmd /c python ..\lsb.py en -i image.png -t @path -o ..\outputs\pow_cmd.png"
 ```
 
 ###### POWERSHELL
 
 ```ps
-python .\lsb.py en -i .\assets\image.png -t "$( Get-Content .\assets\sample.txt -Raw )" -o .\assets\pow_ps.png
+python .\lsb.py en -i .\resources\image.png -t "$( Get-Content .\resources\sample.txt -Raw )" -o .\outputs\pow_ps.png
 ```
 
 <br><br>
@@ -271,10 +292,10 @@ python .\lsb.py en -i .\assets\image.png -t "$( Get-Content .\assets\sample.txt 
 
 ### TO DO
 
- - [ ] Add meaningful comments to the code.
- - [ ] Display detailed information at run time
- - [ ] Add a progress bar (preferably like the one seen in new pip3 command)
- - [ ] Make a GUI for convenient usage
+- [ ] Add meaningful comments to the code.
+- [ ] Display detailed information at run time
+- [ ] Add a progress bar (preferably like the one seen in new pip3 command)
+- [ ] Make a GUI for convenient usage
  
 
 
@@ -296,13 +317,13 @@ python .\lsb.py en -i .\assets\image.png -t "$( Get-Content .\assets\sample.txt 
 [stackoverflow_1]: https://stackoverflow.com/a/17074215
 [stackoverflow_2]: https://stackoverflow.com/a/61195193
 [realpython]: https://realpython.com/command-line-interfaces-python-argparse/
-[pixel]: assets/pixels.png
-[original]: assets/image.png
-[encoded]: assets/encoded.png
-[en_args]: assets/en_args.txt
-[de_args]: assets/de_args.txt
+[pixel]: resources/pixels.png
+[original]: resources/image.png
+[encoded]: outputs/encoded.png
+[en_args]: resources/en_args.txt
+[de_args]: resources/de_args.txt
 
-### EPILOGUE
+### FOOTNOTE
 
 This is my first serious project. Constructive feedbacks are welcome.
 
