@@ -200,13 +200,13 @@ python lsb.py de -i assets/nowyoudont.png -p "nowyouseeme" -o assets/supersecret
 ##### ENCODING
 
 ```sh
-python lsb.py encode --input assets/image.png --text @assets/sample.txt --passwd "secretmessage" --output assets/nowyoudont2.png
+python lsb.py encode --input assets/image.png --text assets/sample.txt --passwd "secretmessage" --output assets/nowyoudont2.png
 ```
 
 <p align="center"><b>OR</b></p>
 
 ```sh
-python lsb.py en -i assets/image.png -t @assets/sample.txt -p "secretmessage" -o assets/nowyoudont2.png
+python lsb.py en -i assets/image.png -t assets/sample.txt -p "secretmessage" -o assets/nowyoudont2.png
 ```
 
 ##### DECODING
