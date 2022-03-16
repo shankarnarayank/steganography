@@ -43,6 +43,7 @@ If you require such a form of encryption look elsewhere or encrypt the message p
  - Numpy
  - Pillow
  - Filetype
+
 ```sh
 pip install -r requirements.txt
 ```
@@ -199,13 +200,13 @@ python lsb.py de -i assets/nowyoudont.png -p "nowyouseeme" -o assets/supersecret
 ##### ENCODING
 
 ```sh
-python lsb.py encode --input assets/image.png --text @assets/sample.txt --passwd "secretmessage" --output assets/nowyoudont2.png
+python lsb.py encode --input assets/image.png --text assets/sample.txt --passwd "secretmessage" --output assets/nowyoudont2.png
 ```
 
 <p align="center"><b>OR</b></p>
 
 ```sh
-python lsb.py en -i assets/image.png -t @assets/sample.txt -p "secretmessage" -o assets/nowyoudont2.png
+python lsb.py en -i assets/image.png -t assets/sample.txt -p "secretmessage" -o assets/nowyoudont2.png
 ```
 
 ##### DECODING
@@ -240,18 +241,41 @@ python lsb.py @assets/de_args.txt
 | [Decoding Arguments][de_args] |
 |:-----------------------------:|
 
-<br><br><br>
+### POWER USER
+
+##### ENCODING
+
+###### LINUX
+
+```sh
+python lsb.py en -i assets/image.png -t "$(cat assets/sample.txt)" -o assets/pow.png
+```
+
+###### COMMAND PROMPT
+
+```cmd
+forfiles /p assets /m sample.txt /c "cmd /c python ..\lsb.py en -i image.png -t @path -o pow_cmd.png"
+```
+
+###### POWERSHELL
+
+```ps
+python .\lsb.py en -i .\assets\image.png -t "$( Get-Content .\assets\sample.txt -Raw )" -o .\assets\pow_ps.png
+```
+
+<br><br>
 
 | [![][original]][original] | [![][encoded]][encoded] |
 |:-------------------------:|:-----------------------:|
 |    **ORIGINAL IMAGE**     |    **ENCODED IMAGE**    |
 
-### FUTURE PLANS
+### TO DO
 
- - Add meaningful comments to the code.
- - Display detailed information during run time
- - Add a progress bar (preferably like the one seen in new pip command)
- - Make a GUI for convenient usage
+ - [ ] Add meaningful comments to the code.
+ - [ ] Display detailed information at run time
+ - [ ] Add a progress bar (preferably like the one seen in new pip3 command)
+ - [ ] Make a GUI for convenient usage
+ 
 
 
 ### REFERENCES
@@ -264,7 +288,7 @@ python lsb.py @assets/de_args.txt
  - [How to check if a file is a valid image file?][stackoverflow_2]
  - [The Ultimate Markdown Cheat Sheet][towardsdatascience_2]
 
-[video_link]: https://youtu.be/_DhqDYLS8oY?t=580
+[video_link]: https://youtu.be/_DhqDYLS8oY?t=593
 [channel_link]: https://www.youtube.com/c/NeuralNine
 [pydocs]: https://docs.python.org/3/library/argparse.html
 [towardsdatascience_1]: https://towardsdatascience.com/a-simple-guide-to-command-line-arguments-with-argparse-6824c30ab1c3
@@ -284,4 +308,4 @@ This is my first serious project. Constructive feedbacks are welcome.
 
 I hope you like my work.
 
-Thanks for sticking around till the end.
+Thanks for reading till the end.
