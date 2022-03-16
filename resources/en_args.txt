@@ -1,0 +1,9 @@
+en
+-i
+resources/image.png
+-t
+resources/sample.txt
+-p
+foonbar
+-o
+outputs/en_args_op.png

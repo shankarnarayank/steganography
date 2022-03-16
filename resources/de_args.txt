@@ -1,0 +1,7 @@
+de
+-i
+outputs/en_args_op.png
+-p
+foonbar
+-o
+outputs/de_args_op.txt

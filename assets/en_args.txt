@@ -1,9 +1,0 @@
-en
--i
-assets/image.png
--t
-assets/sample.txt
--p
-foonbar
--o
-assets/en_args_op.png
