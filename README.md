@@ -32,7 +32,7 @@ So here is the simplest explanation I can think of:
  - Reversing the process will give us the original message.
  - For securing the message, it is sandwiched between the password and stored at a random location.
 
-#### DISCLAIMER
+### DISCLAIMER
 
 This tool does not provide any form of encryption or decryption mechanism, anyone with the knowledge of how LSB steganography, can decode the message.
 
