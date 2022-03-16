@@ -4,8 +4,16 @@ from filetype import is_image
 from os import path
 
 
+def is_valid_file(arg) -> str:
+    if not path.isfile(arg):
+        return arg
+    else:
+        with open(arg, 'r') as f:
+            return f.read()
+
+
 def get_args():
-    my_args = ArgumentParser(fromfile_prefix_chars='@',
+    my_args = ArgumentParser(fromfile_prefix_chars='_',
                              description="Hide/extract messages from an image using LSB encoding.\n"
                                          "(LSB = Least Significant Bit)",
                              # usage="python lsb.py [-h] en|de ...",
@@ -40,7 +48,7 @@ def get_args():
                                   "\nOther extensions are NOT TESTED and may produce errors.")
     en_required.add_argument('-t', '--text',
                              action='store',
-                             type=str,
+                             type=lambda x: is_valid_file(x),
                              required=True,
                              metavar="MESSAGE|FILE",
                              help='The MESSAGE to be encoded. The MESSAGE can be entered directly within quotes(" ") '
